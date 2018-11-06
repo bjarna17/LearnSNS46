@@ -20,13 +20,19 @@
 
     //今データを格納した$feedを使って、画面に編集データを表示
     //アップロード機能
+    //更新ボタンを押した時に、sqlを更新させる
         if (!empty($_POST)) {
-        $update_sql = "UPDATE `feeds` SET `feed` = ? WHERE `feeds`.`id` = ?";
 
+        //変更したつぶやきをDBに上書き保存をする
+        $update_sql = "UPDATE `feeds` SET `feed` = ? WHERE `feeds`.`id` = ?";
+        //prepareを使うために情報を格納する
         $data = array($_POST["feed"],$feed_id);
+
+        //sql文の実行
         $stmt = $dbh->prepare($update_sql);
         $stmt->execute($data);
 
+        //タイムラインへ遷移
         header("Location: timeline.php");
         exit();
     }
